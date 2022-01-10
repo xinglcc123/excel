@@ -1,0 +1,29 @@
+SET sql_mode = '';
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `p_new_rpt`
+-- ----------------------------
+DROP TABLE IF EXISTS `p_new_rpt`;
+CREATE TABLE `p_new_rpt` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `matchdate` date NOT NULL,
+  `categoryid` smallint(5) unsigned NOT NULL,
+  `accountid` mediumint(8) unsigned NOT NULL,
+  `wager_count` int(10) unsigned NOT NULL,
+  `bet` decimal(16,4) NOT NULL,
+  `activebet` decimal(16,4) NOT NULL,
+  `payout` decimal(16,4) NOT NULL,
+  `cdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `jackpotbet` decimal(16,4) NOT NULL DEFAULT '0.0000',
+  `jackpotpay` decimal(16,4) NOT NULL DEFAULT '0.0000',
+  PRIMARY KEY (`matchdate`,`index`),
+  UNIQUE KEY `matchdate` (`matchdate`,`categoryid`,`accountid`),
+  UNIQUE KEY `index` (`index`),
+  KEY `matchdate2` (`matchdate`,`categoryid`),
+  KEY `accountid` (`accountid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of p_new_rpt
+-- ----------------------------

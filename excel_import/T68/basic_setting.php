@@ -1,0 +1,154 @@
+<?php
+class basic{
+	protected $excelpath = 't68.xlsx';			//匯入會員時的excel檔
+	protected $excelagentpath = 't68_agent.xls';	//匯入代理時的excel檔
+	protected $isupdate = 1;						//是否為後續更新 1為是 0為否
+	protected $isexcel = 1;							//1為excel 0為csv
+	protected $prefix = 't68';						//站台前綴
+	protected $istest = 1;							//1為測試 0為正式執行
+	protected $isdebug = 1;							//1為rollback跑完不會存 DB 0為commit直接存進去
+	protected $longchange = 0;						//1為過長帳號處理 0為略過過長帳號
+	protected $shortchange = 0;						//1為過短帳號處理 0為略過過短帳號
+	protected $samechange = 0;						//1為重複帳號處理 0為略過重複帳號
+	protected $errorchange = 0;						//1為非法帳號處理 0為略過非法帳號
+	protected $agent_default = 'agent';			//匯入代理時的預設總代理
+	protected $member_default = 'agent01';			//匯入會員時的預設代理
+	protected $a_close_status = '未审核';	//代理關閉狀態
+	protected $agent_trans = [	//代理切換
+		// 'ht_jc'	=>	'jiechi'
+	];
+	protected $skip_acc = [ //要跳過的帳號
+		// 'kk2017' => '1',
+		// 'a1314520' => '1',
+		// 'cjqm2033' => '1'
+	];
+	protected $insert_same_banklevel = 0; //是否要統一新增會員組 0為不要 1為要
+	protected $insert_same_banklevel_arr = [ //統一新增會員組
+		// 		"banklevel" => '3'
+	];
+	protected $insert_old_banklevel = 1; //是否要新增舊有的會員組 0為不要 1為要
+	protected $insert_old_banklevel_arr = [ //舊有會員組對應
+				"正常存款会员 (0)" => '8',
+				"默认层 (1)" => '8',
+				"VIP1 (2)" => '8',
+				"VIP2 (3)" => '8',
+				"VIP3 (4)" => '8',
+				"VIP5 (6)" => '8',
+				"不返水-无优惠 (11)" => '8',
+				"不出款会员！ (12)" => '8',
+				"注册彩金 (13)" => '8',
+				"计划层级 (14)" => '8',
+				"前台新用户充值 (15)" => '8',
+				"优先出款会员 (16)" => '8',
+	];
+	protected $agent_csv = [	//csv格式 陣列的順序要跟csv里欄位的順序依樣
+		'account',
+		'name',
+		'mobile',
+		'wallet',
+		'win_loss',
+		'QQ',
+		'email',
+		'e',
+		'reg_time',
+		'upper_agent',
+		'ori_banklevel',
+		'bank',
+		'banknum'
+	];
+	protected $agent_excel = [
+		'start_row' => '1',							//從第幾列開始
+		'cells' => [								//右邊填入對應的欄位 若沒有就設空值
+			'account'	=>	'',
+			'status'	=>	'',
+			'name'	=>	'B',						//姓名
+			'mobile'	=>	'',
+			'QQ'	=>	'F',						//QQ
+			'email'	=>	'E',						//邮箱
+			'wechat'	=>	'L',					//微信号
+			'reg_time'	=>	'',
+			'lastlogintime'	=>	'',
+			'wallet'	=>	'G',					//总存款额
+			'gagent'	=>	'',						//上層代理
+			'agent'	=>	'',
+			'agentsum'	=>	'',
+			'playersum'	=>	'',
+			'bank'	=>	'K',						//银行卡信息
+			'banknum'	=>	''
+		]
+	];
+	protected $member_csv = [	//csv格式 陣列的順序要跟csv里欄位的順序依樣
+		'account',
+		'name',
+		'mobile',
+		'wallet',
+		'win_loss',
+		'QQ',
+		'email',
+		'e',
+		'reg_time',
+		'upper_agent',
+		'banklevel',
+		'bank',
+		'banknum'
+	];
+	protected $member_excel = [
+		'start_row' => '2',							//從第幾列開始
+		'cells' => [								//右邊填入對應的欄位 若沒有就設空值
+			'account'	=>	'A',	//帳號
+			'name'	=>	'B',	//姓名
+			'depositsmoney'	=>	'D',	//總存款
+			'withdrawalmoney'	=>	'E',	//總提款
+			'depositscount'	=>	'C',	//總存次數
+			'withdrawalcount'	=>	'',	//總提次數
+			'mobile'	=>	'H',	//電話
+			'QQ'	=>	'',	//QQ
+			'email'	=>	'',	//信箱
+			'wechat'	=>	'',	//微信
+			'reg_time'	=>	'',	//註冊時間
+			'lastlogintime'	=>	'',	//最後登入時間
+			'lastipaddress'	=>	'',	//最後登入IP
+			'regipaddress'	=>	'',	//註冊IP
+			'remark'	=>	'',
+			'wallet'	=>	'',
+			'win_loss'	=>	'',
+			'dob'	=>	'',
+			'rpt'	=>	'F',	//輸贏
+			'bank'	=>	'',	//銀行名稱
+			'banknum'	=>	'',	//銀行卡號
+			'banklevel' => 'G',	//會員組
+			'agent' => '',
+			'province' => '',
+			'city' => '',
+			'status' => '',
+			'frozen' => ''
+		]
+	];
+
+	//資料庫設定
+	public function basic_setting(){
+        $this->db_setting = [
+			'test'	=>	[							//測試機器 本機執行
+				"host"    => "localhost",
+				"user"    =>  "root",
+				"pass"    =>  "",
+				"connection" =>[
+					"agency"        => $this->prefix,
+					"intergration"  => $this->prefix,
+					"money_system"  => $this->prefix
+				]
+			],
+			// 'official' => [							//正式機器 丟到28執行
+			// 	"host"    => "10.10.1.158",
+			// 	"user"    =>  "t68_user",
+			// 	"pass"    =>  "6g2Hk8BgbE41#",
+			// 	"connection" =>[
+			// 		"agency"        => $this->prefix."_agency",
+			// 		"intergration"  => $this->prefix."_intergration",
+			// 		"money_system"  => $this->prefix."_money_system"
+			// 	]
+			// ]
+		];
+    }
+}
+?>

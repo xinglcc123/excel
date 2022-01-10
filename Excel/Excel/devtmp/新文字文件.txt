@@ -1,0 +1,694 @@
+SET sql_mode = '';
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `a_account`
+-- ----------------------------
+DROP TABLE IF EXISTS `a_account`;
+CREATE TABLE `a_account` (
+  `accountid` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `accountcode` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `nickname` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `password` varchar(32) COLLATE utf8_bin NOT NULL,
+  `levelid` tinyint(3) unsigned NOT NULL,
+  `operator` enum('0','1') COLLATE utf8_bin NOT NULL DEFAULT '0',
+  `currencyid` tinyint(3) unsigned NOT NULL,
+  `status` enum('-1','0','1','2') COLLATE utf8_bin NOT NULL,
+  `lastupdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `lastupdateduser` mediumint(9) NOT NULL,
+  `sma_accountid` mediumint(8) unsigned DEFAULT NULL,
+  `ma_accountid` mediumint(8) unsigned DEFAULT NULL,
+  `ag_accountid` mediumint(8) unsigned DEFAULT NULL,
+  `lastlogin` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `passwordexpiry` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `datecreated` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `lastipaddress` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `ma_max_credit` int(10) DEFAULT '0',
+  `ag_max_credit` int(10) DEFAULT '0',
+  `member_max_credit` int(10) DEFAULT '0',
+  `daily_max_deposit` int(10) DEFAULT '0',
+  `daily_max_withdraw` int(10) DEFAULT '0',
+  `oddsgroup` char(1) COLLATE utf8_bin NOT NULL DEFAULT 'c',
+  `companyindex` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `pause_withdrawal` enum('0','1') COLLATE utf8_bin NOT NULL DEFAULT '0',
+  `group_4d` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `client_id` smallint(5) unsigned NOT NULL,
+  `referrals` int(11) DEFAULT NULL,
+  `regipaddress` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `reghost` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`accountid`),
+  UNIQUE KEY `nickname` (`nickname`),
+  UNIQUE KEY `accountcode` (`accountcode`,`levelid`),
+  KEY `level_status` (`levelid`,`status`),
+  KEY `ag_accountid` (`ag_accountid`),
+  KEY `ma_accountid` (`ma_accountid`),
+  KEY `c1` (`ma_accountid`,`ag_accountid`,`companyindex`),
+  KEY `datecreated` (`datecreated`),
+  KEY `referrals` (`referrals`)
+) ENGINE=InnoDB AUTO_INCREMENT=5002 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of a_account
+-- ----------------------------
+INSERT INTO `a_account` VALUES ('804', 'sma', null, '', '1', '0', '1', '1', '2017-01-16 04:13:38', '0', null, null, null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '0', '0', 'c', '1', '0', '0', '0', null, '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('805', 'cash', null, '', '2', '0', '1', '1', '2017-01-16 04:13:38', '0', '804', null, null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '0', '0', 'c', '1', '0', '0', '0', null, '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('806', 'ag888', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '3', '0', '1', '1', '2020-08-17 00:32:08', '0', '804', '805', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '0', '0', 'c', '1', '0', '0', '0', null, '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('807', 'agent', null, '', '2', '0', '1', '1', '2017-01-16 04:13:38', '0', '804', null, null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '0', '0', 'c', '1', '0', '0', '0', null, '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('808', 'agent01', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '3', '0', '1', '1', '2020-08-17 00:32:08', '0', '804', '807', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '0', '0', 'c', '1', '0', '0', '0', null, '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('809', 'ads', null, '', '2', '0', '1', '1', '2017-01-16 04:13:38', '0', '804', null, null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '0', '0', 'c', '1', '0', '0', '0', null, '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('810', 'ads01', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '3', '0', '1', '1', '2020-08-17 00:32:08', '0', '804', '809', null, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '0', '0', 'c', '1', '0', '0', '0', null, '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('4088', 'gpkjumbo', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '4', '0', '1', '1', '2020-08-17 00:32:08', '35', '804', '805', '806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '50', '50', 'c', '1', '0', '0', '2', '4120', '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('4120', 'gpktest987', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '4', '0', '1', '1', '2020-08-17 00:32:08', '35', '804', '805', '806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '50', '50', 'c', '1', '0', '0', '2', null, '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('4121', 'gpktest426', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '4', '0', '1', '1', '2020-08-17 00:32:08', '35', '804', '805', '806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '50', '50', 'c', '1', '0', '0', '2', '4120', '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('4122', 'gpkdemo122', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '4', '0', '1', '1', '2020-08-17 00:32:08', '35', '804', '805', '806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '50', '50', 'c', '1', '0', '0', '2', '4120', '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('4123', 'gpkdemo123', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '4', '0', '1', '1', '2020-08-19 22:33:01', '35', '804', '805', '806', '2020-08-19 22:33:01', '0000-00-00 00:00:00', '2020-08-17 00:32:08', '175.139.140.49', '0', '0', '0', '0', '0', 'c', '1', '0', '0', '0', '4120', '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('4124', 'gpkbgtest01', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '4', '0', '1', '1', '2020-08-17 00:32:08', '35', '804', '805', '806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '0', '0', 'c', '1', '0', '0', '0', '4120', '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('4125', 'gpkbgtest02', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '4', '0', '1', '1', '2020-08-17 00:32:08', '35', '804', '805', '806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '0', '0', 'c', '1', '0', '0', '0', '4120', '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('4126', 'gpkbgtest03', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '4', '0', '1', '1', '2020-08-17 00:32:08', '35', '804', '805', '806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '0', '0', 'c', '1', '0', '0', '0', '4120', '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('4127', 'gpktest978', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '4', '0', '1', '1', '2020-08-17 00:32:08', '35', '804', '805', '806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '50', '50', 'c', '1', '0', '0', '2', '4120', '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('4128', 'gpktest0487', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '4', '0', '1', '1', '2020-08-17 00:32:08', '35', '804', '805', '806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '50', '50', 'c', '1', '0', '0', '2', '4120', '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('4129', 'gpktest0978', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '4', '0', '1', '1', '2020-08-17 00:32:08', '35', '804', '805', '806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '50', '50', 'c', '1', '0', '0', '2', '4120', '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('4130', 'gpktest9487', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '4', '0', '1', '1', '2020-08-17 00:32:08', '35', '804', '805', '806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2020-08-17 00:32:08', null, '0', '0', '0', '50', '50', 'c', '1', '0', '0', '2', '4120', '127.0.0.1', null);
+INSERT INTO `a_account` VALUES ('5000', 'gpkbgdev333', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '4', '0', '1', '1', '2020-08-18 22:00:14', '0', '804', '805', '806', '2020-08-18 22:00:14', '0000-00-00 00:00:00', '2020-08-18 22:00:14', '175.139.140.49', '0', '0', '0', '0', '0', 'c', '1', '0', '0', '1', null, '175.139.140.49', 'gpk.mklojoikm.com');
+INSERT INTO `a_account` VALUES ('5001', 'gpkbgdev3331', null, 'b4fe96f3bd97e9907d9cf492b5382ec1', '4', '0', '1', '1', '2020-08-18 22:02:14', '0', '804', '805', '806', '2020-08-18 22:02:14', '0000-00-00 00:00:00', '2020-08-18 22:02:14', '175.139.140.49', '0', '0', '0', '0', '0', 'c', '1', '0', '0', '1', null, '175.139.140.49', 'gpk.mklojoikm.com');
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `a_account_data`
+-- ----------------------------
+DROP TABLE IF EXISTS `a_account_data`;
+CREATE TABLE `a_account_data` (
+  `accountid` mediumint(8) unsigned NOT NULL,
+  `firstname` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `lastname` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `gender` enum('m','f') COLLATE utf8_bin NOT NULL DEFAULT 'm',
+  `mobileno` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `faxno` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `phoneno` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `email` varchar(40) COLLATE utf8_bin DEFAULT NULL,
+  `country` smallint(5) DEFAULT NULL,
+  `address` varchar(80) COLLATE utf8_bin DEFAULT NULL,
+  `postcode` varchar(8) COLLATE utf8_bin DEFAULT NULL,
+  `province` smallint(5) DEFAULT NULL,
+  `city` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `dob` date NOT NULL,
+  `confirm_flag` enum('0','1') COLLATE utf8_bin NOT NULL DEFAULT '0',
+  `same_name_flag` enum('0','1') COLLATE utf8_bin NOT NULL DEFAULT '0',
+  `withdrawal_code` varchar(4) COLLATE utf8_bin NOT NULL,
+  `id_passport` varchar(18) COLLATE utf8_bin NOT NULL,
+  `qq` varchar(12) COLLATE utf8_bin DEFAULT NULL,
+  `question` tinyint(3) NOT NULL,
+  `answer` varchar(20) COLLATE utf8_bin NOT NULL,
+  `website` varchar(60) COLLATE utf8_bin DEFAULT NULL,
+  `lastupdated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `lastupdateduser` mediumint(9) DEFAULT NULL,
+  `remark` text COLLATE utf8_bin,
+  PRIMARY KEY (`accountid`),
+  KEY `firstname` (`firstname`),
+  KEY `mobileno` (`mobileno`),
+  KEY `email` (`email`),
+  KEY `qq` (`qq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of a_account_data
+-- ----------------------------
+INSERT INTO `a_account_data` VALUES ('804', 'sma', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '', '', '123123', '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('805', 'cash', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('806', 'ag888', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('807', 'agent', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('808', 'agent01', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('809', 'ads', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('810', 'ads01', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('4088', 'jumbo', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '0001', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('4120', 'demo120', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '0001', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('4121', 'demo121', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '0001', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('4122', 'demo122', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '0001', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('4123', 'demo123', null, 'm', '13777888888', null, null, 'demo1112qwe@gmail.com', null, null, null, null, null, '2002-01-01', '0', '0', '4234', '', '122665', '0', '', null, '2020-08-19 04:34:07', null, null);
+INSERT INTO `a_account_data` VALUES ('4124', 'bgtest01', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '1234', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('4125', 'bgtest02', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '1234', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('4126', 'bgtest03', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '1234', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('4127', 'test978', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '0001', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('4128', 'test0487', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '0001', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('4129', 'test0978', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '0001', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('4130', 'test9487', null, 'm', null, null, null, null, null, null, null, null, null, '0000-00-00', '0', '0', '4234', '', null, '0', '', null, '2020-08-17 00:32:08', null, null);
+INSERT INTO `a_account_data` VALUES ('5000', null, null, 'm', '13888899988', null, null, null, '1', null, null, null, null, '0000-00-00', '0', '0', '0000', '', '', '0', '', null, '2020-08-18 22:00:14', null, null);
+INSERT INTO `a_account_data` VALUES ('5001', '测试君', null, 'm', '13565676575', null, null, 'demo111qwe@gmail.com', '1', null, null, null, null, '2002-01-01', '0', '0', '0000', '', '134867968785', '0', '', null, '2020-08-18 22:37:31', null, null);
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `a_account_data_extra`
+-- ----------------------------
+DROP TABLE IF EXISTS `a_account_data_extra`;
+CREATE TABLE `a_account_data_extra` (
+  `accountid` int(11) NOT NULL,
+  `fieldname` varchar(255) COLLATE utf8_bin NOT NULL,
+  `fieldvalue` varchar(255) COLLATE utf8_bin NOT NULL,
+  `cdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`accountid`,`fieldname`),
+  KEY `accountid` (`accountid`),
+  KEY `fieldname` (`fieldname`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of a_account_data_extra
+-- ----------------------------
+INSERT INTO `a_account_data_extra` VALUES ('4123', 'wechat', '11234345345', '2020-08-19 04:34:07');
+INSERT INTO `a_account_data_extra` VALUES ('5001', 'wechat', '1333636333', '2020-08-18 22:37:31');
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `a_account_data_extra_audit`
+-- ----------------------------
+DROP TABLE IF EXISTS `a_account_data_extra_audit`;
+CREATE TABLE `a_account_data_extra_audit` (
+  `logindex` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `accountid` int(11) NOT NULL,
+  `fieldname` varchar(255) COLLATE utf8_bin NOT NULL,
+  `fieldvalue` varchar(255) COLLATE utf8_bin NOT NULL,
+  `cdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateby` varchar(55) COLLATE utf8_bin NOT NULL,
+  `action` varchar(55) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`logindex`),
+  KEY `accountid` (`accountid`),
+  KEY `fieldname` (`fieldname`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of a_account_data_extra_audit
+-- ----------------------------
+INSERT INTO `a_account_data_extra_audit` VALUES ('1', '5001', 'wechat', '1333636333', '2020-08-18 22:37:31', 'gpkbgdev3331', 'REGISTER');
+INSERT INTO `a_account_data_extra_audit` VALUES ('2', '4123', 'wechat', '11234345345', '2020-08-19 04:34:07', 'gpkdemo123', 'REGISTER');
+
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `a_account_sum`
+-- ----------------------------
+DROP TABLE IF EXISTS `a_account_sum`;
+CREATE TABLE `a_account_sum` (
+  `accountid` int(10) unsigned NOT NULL,
+  `1st_deposit_date` timestamp NULL DEFAULT NULL,
+  `2nd_deposit_date` timestamp NULL DEFAULT NULL,
+  `d_count` int(11) DEFAULT NULL,
+  `w_count` int(11) DEFAULT NULL,
+  `d_amt` decimal(16,2) DEFAULT NULL,
+  `w_amt` decimal(16,2) DEFAULT NULL,
+  `1st_amt` decimal(16,2) DEFAULT NULL,
+  `2nd_amt` decimal(16,2) DEFAULT NULL,
+  `lastrolldate` timestamp NULL DEFAULT NULL,
+  `rollover` decimal(16,2) DEFAULT NULL,
+  `last_d_date` timestamp NULL DEFAULT NULL,
+  `last_d_amt` decimal(16,2) DEFAULT NULL,
+  `last_w_date` timestamp NULL DEFAULT NULL,
+  `last_w_amt` decimal(16,2) DEFAULT NULL,
+  `adj_d_amt` decimal(16,2) DEFAULT NULL,
+  `adj_w_amt` decimal(16,2) DEFAULT NULL,
+  `promo_d_amt` decimal(16,2) DEFAULT NULL,
+  `promo_w_amt` decimal(16,2) DEFAULT NULL,
+  `inc_amt` decimal(16,2) DEFAULT NULL,
+  `activebet` decimal(16,2) DEFAULT NULL,
+  `winlose` decimal(16,2) DEFAULT NULL,
+  `activeday` int(11) DEFAULT NULL,
+  `1st_w_date` timestamp NULL DEFAULT NULL,
+  `1st_w_amt` decimal(16,2) DEFAULT NULL,
+  `interest_d_amt` decimal(16,2) DEFAULT NULL,
+  `interest_w_amt` decimal(16,2) DEFAULT NULL,
+  `ppsum` blob,
+  PRIMARY KEY (`accountid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of a_account_sum
+-- ----------------------------
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `a_creditlimit`
+-- ----------------------------
+DROP TABLE IF EXISTS `a_creditlimit`;
+CREATE TABLE `a_creditlimit` (
+  `accountid` mediumint(8) unsigned NOT NULL,
+  `creditlimit` decimal(25,4) NOT NULL DEFAULT '0.0000',
+  `fixed_cl` decimal(25,4) NOT NULL DEFAULT '0.0000',
+  `lastupdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `lastupdateduser` mediumint(9) NOT NULL,
+  `gametypeid` tinyint(4) NOT NULL,
+  `view_status` enum('0','1') COLLATE utf8_bin NOT NULL DEFAULT '1',
+  `companyindex` tinyint(3) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`accountid`,`gametypeid`),
+  KEY `gametypeid` (`gametypeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of a_creditlimit
+-- ----------------------------
+INSERT INTO `a_creditlimit` VALUES ('4088', '500.0000', '0.0000', '2016-11-21 01:44:57', '4088', '0', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4088', '0.0000', '0.0000', '2016-08-25 03:15:53', '0', '1', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4120', '500.0000', '0.0000', '2016-10-14 07:16:09', '4113', '0', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4120', '0.0000', '0.0000', '2016-10-14 07:16:09', '4113', '1', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4121', '500.0000', '0.0000', '2016-10-14 07:16:09', '4113', '0', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4121', '0.0000', '0.0000', '2016-10-14 07:16:09', '4113', '1', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4122', '500.0000', '0.0000', '2016-10-14 07:16:09', '4113', '0', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4122', '0.0000', '0.0000', '2016-10-14 07:16:09', '4113', '1', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4123', '500.0000', '0.0000', '2016-10-14 07:16:09', '4113', '0', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4123', '0.0000', '0.0000', '2016-10-14 07:16:09', '4113', '1', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4124', '500.0000', '0.0000', '2016-10-14 07:16:09', '4113', '0', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4124', '0.0000', '0.0000', '2016-10-14 07:16:09', '4113', '1', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4125', '500.0000', '0.0000', '2016-10-14 07:16:09', '4113', '0', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4125', '0.0000', '0.0000', '2016-10-14 07:16:09', '4113', '1', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4126', '500.0000', '0.0000', '2016-10-14 07:16:09', '4113', '0', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4126', '0.0000', '0.0000', '2016-10-14 07:16:09', '4113', '1', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4127', '500.0000', '0.0000', '2016-10-14 07:16:09', '4113', '0', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4127', '0.0000', '0.0000', '2016-10-14 07:16:09', '4113', '1', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4128', '500.0000', '0.0000', '2016-10-14 07:16:09', '4113', '0', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4128', '0.0000', '0.0000', '2016-10-14 07:16:09', '4113', '1', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4129', '500.0000', '0.0000', '2016-10-14 07:16:09', '4113', '0', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4129', '0.0000', '0.0000', '2016-10-14 07:16:09', '4113', '1', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4130', '500.0000', '0.0000', '2016-10-14 07:16:09', '4113', '0', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('4130', '0.0000', '0.0000', '2016-10-14 07:16:09', '4113', '1', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('5000', '0.0000', '0.0000', '2020-08-18 22:00:14', '5000', '0', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('5000', '0.0000', '0.0000', '2020-08-18 22:00:14', '5000', '1', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('5001', '0.0000', '0.0000', '2020-08-18 22:02:14', '5001', '0', '1', '1');
+INSERT INTO `a_creditlimit` VALUES ('5001', '0.0000', '0.0000', '2020-08-18 22:02:14', '5001', '1', '1', '1');
+
+
+
+
+SET sql_mode = '';
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `p_new_rpt`
+-- ----------------------------
+DROP TABLE IF EXISTS `p_new_rpt`;
+CREATE TABLE `p_new_rpt` (
+  `index` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `matchdate` date NOT NULL,
+  `categoryid` smallint(5) unsigned NOT NULL,
+  `accountid` mediumint(8) unsigned NOT NULL,
+  `wager_count` int(10) unsigned NOT NULL,
+  `bet` decimal(16,4) NOT NULL,
+  `activebet` decimal(16,4) NOT NULL,
+  `payout` decimal(16,4) NOT NULL,
+  `cdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `jackpotbet` decimal(16,4) NOT NULL DEFAULT '0.0000',
+  `jackpotpay` decimal(16,4) NOT NULL DEFAULT '0.0000',
+  PRIMARY KEY (`matchdate`,`index`),
+  UNIQUE KEY `matchdate` (`matchdate`,`categoryid`,`accountid`),
+  UNIQUE KEY `index` (`index`),
+  KEY `matchdate2` (`matchdate`,`categoryid`),
+  KEY `accountid` (`accountid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of p_new_rpt
+-- ----------------------------
+
+
+
+SET sql_mode = '';
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `account_banklevel_audittrail`
+-- ----------------------------
+DROP TABLE IF EXISTS `account_banklevel_audittrail`;
+CREATE TABLE `account_banklevel_audittrail` (
+  `logindex` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `accountindex` mediumint(9) unsigned NOT NULL,
+  `banklevel_id` mediumint(9) unsigned NOT NULL,
+  `before_level` mediumint(8) unsigned NOT NULL,
+  `lastupdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `flags` int(10) unsigned DEFAULT '0',
+  PRIMARY KEY (`logindex`) USING BTREE,
+  KEY `accountindex` (`accountindex`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='层级异动纪录';
+
+-- ----------------------------
+-- Records of account_banklevel_audittrail
+-- ----------------------------
+INSERT INTO `account_banklevel_audittrail` VALUES ('1', '5000', '3', '0', '2020-08-18 22:00:14', '0');
+INSERT INTO `account_banklevel_audittrail` VALUES ('2', '5001', '3', '0', '2020-08-18 22:02:14', '0');
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `account_banklevel_setting`
+-- ----------------------------
+DROP TABLE IF EXISTS `account_banklevel_setting`;
+CREATE TABLE `account_banklevel_setting` (
+  `accountindex` mediumint(9) NOT NULL,
+  `banklevel_id` mediumint(9) NOT NULL,
+  `lastupdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`accountindex`),
+  KEY `accountindex` (`accountindex`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='这个表格记录每个会员最后一次存取银行阶层时所使用的阶层。';
+
+-- ----------------------------
+-- Records of account_banklevel_setting
+-- ----------------------------
+INSERT INTO `account_banklevel_setting` VALUES ('4088', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4120', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4121', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4122', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4123', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4124', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4125', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4126', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4127', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4128', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4129', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4130', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('5000', '3', '2020-08-18 22:00:14');
+INSERT INTO `account_banklevel_setting` VALUES ('5001', '3', '2020-08-18 22:02:14');
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `bank_level`
+-- ----------------------------
+DROP TABLE IF EXISTS `bank_level`;
+CREATE TABLE `bank_level` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(120) COLLATE utf8_bin DEFAULT NULL,
+  `trans` int(10) unsigned NOT NULL DEFAULT '0',
+  `amount` decimal(14,4) unsigned NOT NULL DEFAULT '0.0000',
+  `activebet` decimal(14,4) unsigned NOT NULL DEFAULT '0.0000',
+  `flags` int(10) unsigned NOT NULL DEFAULT '0',
+  `bank_group` blob,
+  `mintransaction` decimal(12,2) NOT NULL DEFAULT '50.00',
+  `maxtransaction` decimal(12,2) NOT NULL DEFAULT '100.00',
+  `showbankaccountno` enum('0','1') COLLATE utf8_bin NOT NULL DEFAULT '0',
+  `lastupdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `lastupdateduser` varchar(20) COLLATE utf8_bin NOT NULL,
+  `sequence` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `leveltype` enum('1','2','3','-1') COLLATE utf8_bin NOT NULL DEFAULT '1' COMMENT '1: auto 2: manual 3: fixed. -1:deleted',
+  `deposit_min` double DEFAULT NULL,
+  `deposit_max` double DEFAULT NULL,
+  `onlinepayment_min` double DEFAULT NULL,
+  `onlinepayment_max` double DEFAULT NULL,
+  `withdraw_min` double DEFAULT NULL,
+  `withdraw_max` double DEFAULT NULL,
+  `dailywithdraw_max` double DEFAULT NULL,
+  `autoapprovelimit` double unsigned DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `trans` (`trans`,`amount`,`activebet`,`leveltype`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of bank_level
+-- ----------------------------
+INSERT INTO `bank_level` VALUES ('3', '新会员', '0', '0.0000', '0.0000', '0', 0x312C32, '10.00', '1000000.00', '1', '2020-08-19 03:10:38', 'lynn.lin', '0', '1', '10', '10000', '10', '10000', '10', '10000', '500000', '20000');
+INSERT INTO `bank_level` VALUES ('4', '一般会员', '5', '200000.0000', '0.0000', '1', 0x312C32, '10.00', '0.00', '0', '2020-08-17 00:32:17', 'BOS', '0', '1', '10', '10000', '10', '10000', '10', '10000', '500000', '0');
+INSERT INTO `bank_level` VALUES ('5', 'VIP会员', '20', '1000000.0000', '0.0000', '1', 0x312C32, '10.00', '10000000.00', '1', '2020-08-17 00:32:17', 'BOS', '0', '1', '10', '10000', '10', '10000', '10', '10000', '500000', '0');
+INSERT INTO `bank_level` VALUES ('6', '异常会员', '0', '0.0000', '0.0000', '1', '', '10.00', '1000.00', '0', '2020-08-17 00:32:17', 'BOS', '4', '3', '0', '0', '0', '0', '0', '0', '0', '0.01');
+INSERT INTO `bank_level` VALUES ('7', '测试层', '0', '0.0000', '0.0000', '1', 0x312C32, '10.00', '1000.00', '0', '2020-08-17 00:32:17', 'BOS', '4', '3', '10', '10000', '10', '10000', '10', '10000', '500000', '0');
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `cash_ledger`
+-- ----------------------------
+DROP TABLE IF EXISTS `cash_ledger`;
+CREATE TABLE `cash_ledger` (
+  `ledgerindex` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `ledgerdatetime` datetime NOT NULL,
+  `accountindex` mediumint(8) unsigned NOT NULL,
+  `transactionindex` tinyint(3) unsigned NOT NULL,
+  `fundindex` tinyint(3) unsigned NOT NULL,
+  `status` tinyint(3) unsigned NOT NULL,
+  `doublecheckstatus` enum('0','1') NOT NULL DEFAULT '0',
+  `currencyindex` tinyint(3) unsigned NOT NULL,
+  `amount` decimal(14,4) NOT NULL,
+  `amountlocal` decimal(14,4) NOT NULL,
+  `ip` varchar(15) NOT NULL,
+  `creditcard_flag` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `return_msg` varchar(255) DEFAULT NULL,
+  `featureindex` mediumint(8) unsigned DEFAULT NULL,
+  `companyindex` tinyint(3) unsigned NOT NULL,
+  `bankindex` smallint(5) DEFAULT NULL,
+  `postindex` mediumint(8) DEFAULT NULL,
+  `reference_ledgerindex` mediumint(8) unsigned DEFAULT NULL,
+  `bankaccountindex` mediumint(8) unsigned NOT NULL,
+  `deposit_date` varchar(10) DEFAULT NULL,
+  `user_bankaccountname` varchar(40) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `user_bankaccountno` varchar(4) DEFAULT NULL,
+  `deposit_time` varchar(8) DEFAULT NULL,
+  `deposit_location` text CHARACTER SET utf8 COLLATE utf8_bin,
+  `deposit_profileindex` mediumint(8) DEFAULT NULL,
+  `deposit_method_type` tinyint(3) DEFAULT NULL,
+  `deposit_verify_code` varchar(15) DEFAULT NULL,
+  `total_ccl` decimal(25,4) unsigned NOT NULL,
+  `current_rollover` decimal(14,4) unsigned NOT NULL,
+  `autoconfirm` enum('0','1') DEFAULT '0',
+  `withdrawal_valid` enum('0','1') NOT NULL DEFAULT '1' COMMENT '此笔交易是否加入稽核 0: 不加入稽核； 1: 加入稽核',
+  `finishdatetime` datetime DEFAULT NULL,
+  `finishby` int(10) DEFAULT NULL,
+  `lastupdated` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`ledgerindex`),
+  KEY `ledgerdatetime` (`ledgerdatetime`),
+  KEY `accountindex_ledgerdatetime` (`accountindex`,`ledgerdatetime`),
+  KEY `fundindex` (`fundindex`),
+  KEY `status` (`status`),
+  KEY `accountindex` (`accountindex`),
+  KEY `transactionindex` (`transactionindex`),
+  KEY `companyindex` (`companyindex`),
+  KEY `ledgerindex` (`ledgerindex`),
+  KEY `deposit_verify_code` (`deposit_verify_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of cash_ledger
+-- ----------------------------
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `cash_ledger_audittrail`
+-- ----------------------------
+DROP TABLE IF EXISTS `cash_ledger_audittrail`;
+CREATE TABLE `cash_ledger_audittrail` (
+  `auditindex` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `audit_ledgerindex` mediumint(8) unsigned NOT NULL,
+  `audit_ledgerdatetime` datetime NOT NULL,
+  `audit_accountindex` mediumint(8) unsigned NOT NULL,
+  `audit_transactionindex` tinyint(3) unsigned NOT NULL,
+  `audit_fundindex` tinyint(3) unsigned NOT NULL,
+  `audit_status` tinyint(3) unsigned NOT NULL,
+  `audit_doublecheckstatus` enum('0','1') NOT NULL DEFAULT '0',
+  `audit_currencyindex` tinyint(3) unsigned NOT NULL,
+  `audit_amount` decimal(14,4) NOT NULL,
+  `audit_amountlocal` decimal(14,4) NOT NULL,
+  `audit_ip` varchar(15) NOT NULL,
+  `audit_creditcard_flag` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `audit_featureindex` smallint(5) unsigned DEFAULT NULL,
+  `audit_bankindex` tinyint(3) DEFAULT NULL,
+  `audit_postindex` mediumint(8) DEFAULT NULL,
+  `audit_reference_ledgerindex` mediumint(8) unsigned DEFAULT NULL,
+  `audit_return_msg` varchar(30) DEFAULT NULL,
+  `audit_action` varchar(20) DEFAULT NULL,
+  `audit_companyindex` tinyint(3) unsigned NOT NULL,
+  `audit_lastupdateduser` mediumint(8) unsigned NOT NULL,
+  `audit_lastupdated` datetime NOT NULL,
+  `audit_deposit_date` varchar(10) NOT NULL,
+  `audit_user_bankaccountname` varchar(40) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `audit_user_bankaccountno` varchar(4) DEFAULT NULL,
+  `audit_deposit_time` varchar(8) DEFAULT NULL,
+  `audit_deposit_location` text CHARACTER SET utf8 COLLATE utf8_bin,
+  `audit_deposit_profileindex` mediumint(8) DEFAULT NULL,
+  `audit_deposit_method_type` enum('0','1','2') DEFAULT NULL,
+  `audit_deposit_verify_code` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`auditindex`),
+  KEY `ledgerindex` (`audit_ledgerindex`),
+  KEY `audit_lastupdated` (`audit_lastupdated`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of cash_ledger_audittrail
+-- ----------------------------
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `cash_ledger_remark_cash`
+-- ----------------------------
+DROP TABLE IF EXISTS `cash_ledger_remark_cash`;
+CREATE TABLE `cash_ledger_remark_cash` (
+  `ledgerindex` mediumint(8) unsigned NOT NULL,
+  `remark` varchar(100) COLLATE utf8_bin NOT NULL,
+  `lastupdateduser` mediumint(8) unsigned NOT NULL,
+  PRIMARY KEY (`ledgerindex`),
+  KEY `remark` (`remark`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of cash_ledger_remark_cash
+-- ----------------------------
+
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `withdrawal_profile`
+-- ----------------------------
+DROP TABLE IF EXISTS `withdrawal_profile`;
+CREATE TABLE `withdrawal_profile` (
+  `profileindex` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `bankindex` mediumint(8) unsigned NOT NULL,
+  `accountindex` mediumint(8) unsigned NOT NULL,
+  `bankaccountno` varchar(60) NOT NULL,
+  `bankprovince` smallint(5) NOT NULL,
+  `bankcity` smallint(5) NOT NULL,
+  `bankaddress` tinytext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `otherbankname` varchar(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `status` enum('0','1') NOT NULL,
+  `companyindex` tinyint(3) unsigned NOT NULL,
+  `valid_date` date DEFAULT NULL,
+  PRIMARY KEY (`profileindex`,`bankindex`,`accountindex`),
+  KEY `profileindex` (`profileindex`),
+  KEY `accountindex` (`accountindex`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of withdrawal_profile
+-- ----------------------------
+INSERT INTO `withdrawal_profile` VALUES ('1', '3', '5001', '133333336666', '878', '0', 0x74657374, '', '1', '1', null);
+INSERT INTO `withdrawal_profile` VALUES ('2', '2', '4123', '185858588588', '907', '0', 0x74657374, '', '1', '1', null);
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `withdrawal_profile_audittrail`
+-- ----------------------------
+DROP TABLE IF EXISTS `withdrawal_profile_audittrail`;
+CREATE TABLE `withdrawal_profile_audittrail` (
+  `auditindex` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `audit_profileindex` mediumint(8) unsigned NOT NULL,
+  `audit_bankindex` mediumint(8) unsigned NOT NULL,
+  `audit_accountindex` mediumint(8) unsigned NOT NULL,
+  `audit_bankaccountno` varchar(60) NOT NULL,
+  `audit_bankprovince` smallint(5) NOT NULL,
+  `audit_bankcity` smallint(5) NOT NULL,
+  `audit_bankaddress` tinytext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `audit_otherbankname` varchar(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `audit_status` enum('0','1') NOT NULL,
+  `audit_companyindex` tinyint(3) unsigned NOT NULL,
+  `audit_action` varchar(20) NOT NULL,
+  `audit_lastupdateduser` mediumint(8) unsigned NOT NULL,
+  `audit_lastupdated` datetime NOT NULL,
+  `audit_remark` varchar(20) DEFAULT '',
+  PRIMARY KEY (`auditindex`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of withdrawal_profile_audittrail
+-- ----------------------------
+INSERT INTO `withdrawal_profile_audittrail` VALUES ('1', '1', '3', '5001', '133333336666', '878', '0', 0x74657374, '', '1', '1', 'INSERT', '5001', '2020-08-18 22:38:19', '');
+INSERT INTO `withdrawal_profile_audittrail` VALUES ('2', '2', '2', '4123', '185858588588', '907', '0', 0x74657374, '', '1', '1', 'INSERT', '4123', '2020-08-19 04:34:07', '');
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `cash_ledger_remark_cash_audittrail`
+-- ----------------------------
+DROP TABLE IF EXISTS `cash_ledger_remark_cash_audittrail`;
+CREATE TABLE `cash_ledger_remark_cash_audittrail` (
+  `logindex` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ledgerindex` mediumint(8) unsigned NOT NULL,
+  `remark` varchar(100) COLLATE utf8_bin NOT NULL,
+  `lastupdateduser` mediumint(8) unsigned NOT NULL,
+  `updateaction` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `lastupdated` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`logindex`),
+  KEY `remark` (`remark`),
+  KEY `ledgerindex` (`ledgerindex`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of cash_ledger_remark_cash_audittrail
+-- ----------------------------
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('1', '21', 'test', '1052', 'INSERT', '2020-08-21 13:50:35');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('2', '3', '', '72', 'INSERT', '2020-08-21 17:14:21');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('3', '5', '', '72', 'INSERT', '2020-08-21 17:53:10');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('4', '6', '', '72', 'INSERT', '2020-08-21 17:53:33');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('5', '7', '', '72', 'INSERT', '2020-08-21 17:53:44');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('6', '8', '', '72', 'INSERT', '2020-08-21 17:54:09');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('7', '9', '', '72', 'INSERT', '2020-08-21 17:54:24');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('8', '17', '', '72', 'INSERT', '2020-08-21 19:50:14');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('9', '18', '', '72', 'INSERT', '2020-08-21 20:03:32');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('10', '19', '', '72', 'INSERT', '2020-08-21 20:03:49');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('11', '20', '', '72', 'INSERT', '2020-08-21 20:04:15');
+
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for cash_ledger_reference
+-- ----------------------------
+DROP TABLE IF EXISTS `cash_ledger_reference`;
+CREATE TABLE `cash_ledger_reference`  (
+  `ledgerindex` mediumint(8) UNSIGNED NOT NULL,
+  `currentcl` decimal(16, 4) UNSIGNED NOT NULL,
+  `groupindex` tinyint(3) UNSIGNED NULL DEFAULT 0,
+  `bank_reference_id` varchar(30) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `transaction_time` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`ledgerindex`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+SET FOREIGN_KEY_CHECKS = 1;

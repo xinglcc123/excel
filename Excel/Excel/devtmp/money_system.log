@@ -1,0 +1,343 @@
+SET sql_mode = '';
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `account_banklevel_audittrail`
+-- ----------------------------
+DROP TABLE IF EXISTS `account_banklevel_audittrail`;
+CREATE TABLE `account_banklevel_audittrail` (
+  `logindex` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `accountindex` mediumint(9) unsigned NOT NULL,
+  `banklevel_id` mediumint(9) unsigned NOT NULL,
+  `before_level` mediumint(8) unsigned NOT NULL,
+  `lastupdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `flags` int(10) unsigned DEFAULT '0',
+  PRIMARY KEY (`logindex`) USING BTREE,
+  KEY `accountindex` (`accountindex`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='层级异动纪录';
+
+-- ----------------------------
+-- Records of account_banklevel_audittrail
+-- ----------------------------
+INSERT INTO `account_banklevel_audittrail` VALUES ('1', '5000', '3', '0', '2020-08-18 22:00:14', '0');
+INSERT INTO `account_banklevel_audittrail` VALUES ('2', '5001', '3', '0', '2020-08-18 22:02:14', '0');
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `account_banklevel_setting`
+-- ----------------------------
+DROP TABLE IF EXISTS `account_banklevel_setting`;
+CREATE TABLE `account_banklevel_setting` (
+  `accountindex` mediumint(9) NOT NULL,
+  `banklevel_id` mediumint(9) NOT NULL,
+  `lastupdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`accountindex`),
+  KEY `accountindex` (`accountindex`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='这个表格记录每个会员最后一次存取银行阶层时所使用的阶层。';
+
+-- ----------------------------
+-- Records of account_banklevel_setting
+-- ----------------------------
+INSERT INTO `account_banklevel_setting` VALUES ('4088', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4120', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4121', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4122', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4123', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4124', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4125', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4126', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4127', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4128', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4129', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('4130', '7', '2020-08-17 00:32:16');
+INSERT INTO `account_banklevel_setting` VALUES ('5000', '3', '2020-08-18 22:00:14');
+INSERT INTO `account_banklevel_setting` VALUES ('5001', '3', '2020-08-18 22:02:14');
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `bank_level`
+-- ----------------------------
+DROP TABLE IF EXISTS `bank_level`;
+CREATE TABLE `bank_level` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(120) COLLATE utf8_bin DEFAULT NULL,
+  `trans` int(10) unsigned NOT NULL DEFAULT '0',
+  `amount` decimal(14,4) unsigned NOT NULL DEFAULT '0.0000',
+  `activebet` decimal(14,4) unsigned NOT NULL DEFAULT '0.0000',
+  `flags` int(10) unsigned NOT NULL DEFAULT '0',
+  `bank_group` blob,
+  `mintransaction` decimal(12,2) NOT NULL DEFAULT '50.00',
+  `maxtransaction` decimal(12,2) NOT NULL DEFAULT '100.00',
+  `showbankaccountno` enum('0','1') COLLATE utf8_bin NOT NULL DEFAULT '0',
+  `lastupdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `lastupdateduser` varchar(20) COLLATE utf8_bin NOT NULL,
+  `sequence` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `leveltype` enum('1','2','3','-1') COLLATE utf8_bin NOT NULL DEFAULT '1' COMMENT '1: auto 2: manual 3: fixed. -1:deleted',
+  `deposit_min` double DEFAULT NULL,
+  `deposit_max` double DEFAULT NULL,
+  `onlinepayment_min` double DEFAULT NULL,
+  `onlinepayment_max` double DEFAULT NULL,
+  `withdraw_min` double DEFAULT NULL,
+  `withdraw_max` double DEFAULT NULL,
+  `dailywithdraw_max` double DEFAULT NULL,
+  `autoapprovelimit` double unsigned DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `trans` (`trans`,`amount`,`activebet`,`leveltype`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of bank_level
+-- ----------------------------
+INSERT INTO `bank_level` VALUES ('3', '新会员', '0', '0.0000', '0.0000', '0', 0x312C32, '10.00', '1000000.00', '1', '2020-08-19 03:10:38', 'lynn.lin', '0', '1', '10', '10000', '10', '10000', '10', '10000', '500000', '20000');
+INSERT INTO `bank_level` VALUES ('4', '一般会员', '5', '200000.0000', '0.0000', '1', 0x312C32, '10.00', '0.00', '0', '2020-08-17 00:32:17', 'BOS', '0', '1', '10', '10000', '10', '10000', '10', '10000', '500000', '0');
+INSERT INTO `bank_level` VALUES ('5', 'VIP会员', '20', '1000000.0000', '0.0000', '1', 0x312C32, '10.00', '10000000.00', '1', '2020-08-17 00:32:17', 'BOS', '0', '1', '10', '10000', '10', '10000', '10', '10000', '500000', '0');
+INSERT INTO `bank_level` VALUES ('6', '异常会员', '0', '0.0000', '0.0000', '1', '', '10.00', '1000.00', '0', '2020-08-17 00:32:17', 'BOS', '4', '3', '0', '0', '0', '0', '0', '0', '0', '0.01');
+INSERT INTO `bank_level` VALUES ('7', '测试层', '0', '0.0000', '0.0000', '1', 0x312C32, '10.00', '1000.00', '0', '2020-08-17 00:32:17', 'BOS', '4', '3', '10', '10000', '10', '10000', '10', '10000', '500000', '0');
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `cash_ledger`
+-- ----------------------------
+DROP TABLE IF EXISTS `cash_ledger`;
+CREATE TABLE `cash_ledger` (
+  `ledgerindex` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `ledgerdatetime` datetime NOT NULL,
+  `accountindex` mediumint(8) unsigned NOT NULL,
+  `transactionindex` tinyint(3) unsigned NOT NULL,
+  `fundindex` tinyint(3) unsigned NOT NULL,
+  `status` tinyint(3) unsigned NOT NULL,
+  `doublecheckstatus` enum('0','1') NOT NULL DEFAULT '0',
+  `currencyindex` tinyint(3) unsigned NOT NULL,
+  `amount` decimal(14,4) NOT NULL,
+  `amountlocal` decimal(14,4) NOT NULL,
+  `ip` varchar(15) NOT NULL,
+  `creditcard_flag` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `return_msg` varchar(255) DEFAULT NULL,
+  `featureindex` mediumint(8) unsigned DEFAULT NULL,
+  `companyindex` tinyint(3) unsigned NOT NULL,
+  `bankindex` smallint(5) DEFAULT NULL,
+  `postindex` mediumint(8) DEFAULT NULL,
+  `reference_ledgerindex` mediumint(8) unsigned DEFAULT NULL,
+  `bankaccountindex` mediumint(8) unsigned NOT NULL,
+  `deposit_date` varchar(10) DEFAULT NULL,
+  `user_bankaccountname` varchar(40) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `user_bankaccountno` varchar(4) DEFAULT NULL,
+  `deposit_time` varchar(8) DEFAULT NULL,
+  `deposit_location` text CHARACTER SET utf8 COLLATE utf8_bin,
+  `deposit_profileindex` mediumint(8) DEFAULT NULL,
+  `deposit_method_type` tinyint(3) DEFAULT NULL,
+  `deposit_verify_code` varchar(15) DEFAULT NULL,
+  `total_ccl` decimal(25,4) unsigned NOT NULL,
+  `current_rollover` decimal(14,4) unsigned NOT NULL,
+  `autoconfirm` enum('0','1') DEFAULT '0',
+  `withdrawal_valid` enum('0','1') NOT NULL DEFAULT '1' COMMENT '此笔交易是否加入稽核 0: 不加入稽核； 1: 加入稽核',
+  `finishdatetime` datetime DEFAULT NULL,
+  `finishby` int(10) DEFAULT NULL,
+  `lastupdated` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`ledgerindex`),
+  KEY `ledgerdatetime` (`ledgerdatetime`),
+  KEY `accountindex_ledgerdatetime` (`accountindex`,`ledgerdatetime`),
+  KEY `fundindex` (`fundindex`),
+  KEY `status` (`status`),
+  KEY `accountindex` (`accountindex`),
+  KEY `transactionindex` (`transactionindex`),
+  KEY `companyindex` (`companyindex`),
+  KEY `ledgerindex` (`ledgerindex`),
+  KEY `deposit_verify_code` (`deposit_verify_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of cash_ledger
+-- ----------------------------
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `cash_ledger_audittrail`
+-- ----------------------------
+DROP TABLE IF EXISTS `cash_ledger_audittrail`;
+CREATE TABLE `cash_ledger_audittrail` (
+  `auditindex` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `audit_ledgerindex` mediumint(8) unsigned NOT NULL,
+  `audit_ledgerdatetime` datetime NOT NULL,
+  `audit_accountindex` mediumint(8) unsigned NOT NULL,
+  `audit_transactionindex` tinyint(3) unsigned NOT NULL,
+  `audit_fundindex` tinyint(3) unsigned NOT NULL,
+  `audit_status` tinyint(3) unsigned NOT NULL,
+  `audit_doublecheckstatus` enum('0','1') NOT NULL DEFAULT '0',
+  `audit_currencyindex` tinyint(3) unsigned NOT NULL,
+  `audit_amount` decimal(14,4) NOT NULL,
+  `audit_amountlocal` decimal(14,4) NOT NULL,
+  `audit_ip` varchar(15) NOT NULL,
+  `audit_creditcard_flag` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `audit_featureindex` smallint(5) unsigned DEFAULT NULL,
+  `audit_bankindex` tinyint(3) DEFAULT NULL,
+  `audit_postindex` mediumint(8) DEFAULT NULL,
+  `audit_reference_ledgerindex` mediumint(8) unsigned DEFAULT NULL,
+  `audit_return_msg` varchar(30) DEFAULT NULL,
+  `audit_action` varchar(20) DEFAULT NULL,
+  `audit_companyindex` tinyint(3) unsigned NOT NULL,
+  `audit_lastupdateduser` mediumint(8) unsigned NOT NULL,
+  `audit_lastupdated` datetime NOT NULL,
+  `audit_deposit_date` varchar(10) NOT NULL,
+  `audit_user_bankaccountname` varchar(40) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `audit_user_bankaccountno` varchar(4) DEFAULT NULL,
+  `audit_deposit_time` varchar(8) DEFAULT NULL,
+  `audit_deposit_location` text CHARACTER SET utf8 COLLATE utf8_bin,
+  `audit_deposit_profileindex` mediumint(8) DEFAULT NULL,
+  `audit_deposit_method_type` enum('0','1','2') DEFAULT NULL,
+  `audit_deposit_verify_code` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`auditindex`),
+  KEY `ledgerindex` (`audit_ledgerindex`),
+  KEY `audit_lastupdated` (`audit_lastupdated`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of cash_ledger_audittrail
+-- ----------------------------
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `cash_ledger_remark_cash`
+-- ----------------------------
+DROP TABLE IF EXISTS `cash_ledger_remark_cash`;
+CREATE TABLE `cash_ledger_remark_cash` (
+  `ledgerindex` mediumint(8) unsigned NOT NULL,
+  `remark` varchar(100) COLLATE utf8_bin NOT NULL,
+  `lastupdateduser` mediumint(8) unsigned NOT NULL,
+  PRIMARY KEY (`ledgerindex`),
+  KEY `remark` (`remark`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of cash_ledger_remark_cash
+-- ----------------------------
+
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `withdrawal_profile`
+-- ----------------------------
+DROP TABLE IF EXISTS `withdrawal_profile`;
+CREATE TABLE `withdrawal_profile` (
+  `profileindex` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `bankindex` mediumint(8) unsigned NOT NULL,
+  `accountindex` mediumint(8) unsigned NOT NULL,
+  `bankaccountno` varchar(60) NOT NULL,
+  `bankprovince` smallint(5) NOT NULL,
+  `bankcity` smallint(5) NOT NULL,
+  `bankaddress` tinytext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `otherbankname` varchar(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `status` enum('0','1') NOT NULL,
+  `companyindex` tinyint(3) unsigned NOT NULL,
+  `valid_date` date DEFAULT NULL,
+  PRIMARY KEY (`profileindex`,`bankindex`,`accountindex`),
+  KEY `profileindex` (`profileindex`),
+  KEY `accountindex` (`accountindex`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of withdrawal_profile
+-- ----------------------------
+INSERT INTO `withdrawal_profile` VALUES ('1', '3', '5001', '133333336666', '878', '0', 0x74657374, '', '1', '1', null);
+INSERT INTO `withdrawal_profile` VALUES ('2', '2', '4123', '185858588588', '907', '0', 0x74657374, '', '1', '1', null);
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `withdrawal_profile_audittrail`
+-- ----------------------------
+DROP TABLE IF EXISTS `withdrawal_profile_audittrail`;
+CREATE TABLE `withdrawal_profile_audittrail` (
+  `auditindex` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `audit_profileindex` mediumint(8) unsigned NOT NULL,
+  `audit_bankindex` mediumint(8) unsigned NOT NULL,
+  `audit_accountindex` mediumint(8) unsigned NOT NULL,
+  `audit_bankaccountno` varchar(60) NOT NULL,
+  `audit_bankprovince` smallint(5) NOT NULL,
+  `audit_bankcity` smallint(5) NOT NULL,
+  `audit_bankaddress` tinytext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `audit_otherbankname` varchar(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `audit_status` enum('0','1') NOT NULL,
+  `audit_companyindex` tinyint(3) unsigned NOT NULL,
+  `audit_action` varchar(20) NOT NULL,
+  `audit_lastupdateduser` mediumint(8) unsigned NOT NULL,
+  `audit_lastupdated` datetime NOT NULL,
+  `audit_remark` varchar(20) DEFAULT '',
+  PRIMARY KEY (`auditindex`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of withdrawal_profile_audittrail
+-- ----------------------------
+INSERT INTO `withdrawal_profile_audittrail` VALUES ('1', '1', '3', '5001', '133333336666', '878', '0', 0x74657374, '', '1', '1', 'INSERT', '5001', '2020-08-18 22:38:19', '');
+INSERT INTO `withdrawal_profile_audittrail` VALUES ('2', '2', '2', '4123', '185858588588', '907', '0', 0x74657374, '', '1', '1', 'INSERT', '4123', '2020-08-19 04:34:07', '');
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `cash_ledger_remark_cash_audittrail`
+-- ----------------------------
+DROP TABLE IF EXISTS `cash_ledger_remark_cash_audittrail`;
+CREATE TABLE `cash_ledger_remark_cash_audittrail` (
+  `logindex` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ledgerindex` mediumint(8) unsigned NOT NULL,
+  `remark` varchar(100) COLLATE utf8_bin NOT NULL,
+  `lastupdateduser` mediumint(8) unsigned NOT NULL,
+  `updateaction` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `lastupdated` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`logindex`),
+  KEY `remark` (`remark`),
+  KEY `ledgerindex` (`ledgerindex`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of cash_ledger_remark_cash_audittrail
+-- ----------------------------
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('1', '21', 'test', '1052', 'INSERT', '2020-08-21 13:50:35');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('2', '3', '', '72', 'INSERT', '2020-08-21 17:14:21');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('3', '5', '', '72', 'INSERT', '2020-08-21 17:53:10');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('4', '6', '', '72', 'INSERT', '2020-08-21 17:53:33');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('5', '7', '', '72', 'INSERT', '2020-08-21 17:53:44');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('6', '8', '', '72', 'INSERT', '2020-08-21 17:54:09');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('7', '9', '', '72', 'INSERT', '2020-08-21 17:54:24');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('8', '17', '', '72', 'INSERT', '2020-08-21 19:50:14');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('9', '18', '', '72', 'INSERT', '2020-08-21 20:03:32');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('10', '19', '', '72', 'INSERT', '2020-08-21 20:03:49');
+INSERT INTO `cash_ledger_remark_cash_audittrail` VALUES ('11', '20', '', '72', 'INSERT', '2020-08-21 20:04:15');
+
+
